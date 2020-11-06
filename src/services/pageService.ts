@@ -8,7 +8,7 @@ class PageService {
         this.crudC.init("page", "id");
     }
     
-    async getPage(id?: string, nombre?: string | number) {
+    async getPage(id?: number, nombre?: string ): Promise<Page[]> {
         if (id) {
             return await this.crudC.select(id);
         } else {
@@ -19,10 +19,12 @@ class PageService {
             }
         }
     }
+
     async postPage(page: Page) {
         console.log("datos para insertar: ", page);
        return await this.crudC.insert(page); 
     }
+    
     async putPage(id: number, page: Page) {
         console.log("datos para actualizar: ", id  ," data: ", page);
        return await this.crudC.update(id, page); 

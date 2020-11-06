@@ -7,6 +7,8 @@ const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const pageRouter_1 = require("./routes/pageRouter");
+const cardsRouter_1 = require("./routes/cardsRouter");
+const usuariosRouter_1 = require("./routes/usuariosRouter");
 class Server {
     constructor() {
         this.app = express_1.default();
@@ -33,7 +35,8 @@ class Server {
     }
     routes() {
         this.app.use('/', pageRouter_1.pageR.router);
-        //this.app.use('/', contactosR.router);
+        this.app.use('/', cardsRouter_1.cardsR.router);
+        this.app.use('/', usuariosRouter_1.usuarioR.router);
     }
     start() {
         this.app.listen(this.app.get('port'), () => {

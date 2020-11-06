@@ -8,22 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.pageC = void 0;
-const crudService_1 = __importDefault(require("../services/crudService"));
 const pageService_1 = require("../services/pageService");
 class PageController {
-    constructor() {
-        this.crudService = new crudService_1.default();
-        this.crudService.init("page", "id");
-    }
     getPages(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const result = yield pageService_1.pageService.select(undefined);
+                const result = yield pageService_1.pageService.getPage(undefined);
                 console.log(result);
                 res.status(200).json(result);
             }
@@ -37,7 +29,7 @@ class PageController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { id } = req.params;
-                const result = yield this.crudService.select(parseInt(id));
+                const result = yield pageService_1.pageService.getPage(parseInt(id), undefined);
                 console.log(result);
                 res.status(200).json(result);
             }
@@ -48,10 +40,8 @@ class PageController {
     }
     postPage(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(req.body);
-            req.body.usuario = parseInt(req.body.userId);
-            delete req.body.userId;
-            const result = yield this.crudService.insert(req.body);
+            const page = req.body;
+            const result = yield pageService_1.pageService.postPage(page);
             console.log(result);
             if (result.affectedRows === 1) {
                 res.status(201).json({ "mensaje": "Los datos se registro" });
@@ -65,24 +55,30 @@ class PageController {
         return __awaiter(this, void 0, void 0, function* () {
             console.log(req.body);
             const { id } = req.params;
-            delete req.body.name;
-            delete req.body.id;
-            delete req.body.userId;
             console.log(req.body);
-            const result = yield this.crudService.update(parseInt(id), req.body);
-            console.log(result);
-            if (result.affectedRows === 1) {
-                res.status(201).json({ "mensaje": "Los datos se actualizarón" });
+            const page = req.body;
+            const result0 = yield pageService_1.pageService.getPage(parseInt(id));
+            console.log(result0);
+            if (result0[1]) {
+                const aditResult = Object.assign(result0[1], page);
+                const result = yield pageService_1.pageService.putPage(parseInt(id), aditResult);
+                console.log(result);
+                if (result.affectedRows === 1) {
+                    res.status(201).json({ "mensaje": "Los datos se actualizarón" });
+                }
+                else {
+                    res.status(500).json({ "mensaje": "Error al actualizar los datos" });
+                }
             }
             else {
-                res.status(500).json({ "mensaje": "Error al actualizar los datos" });
+                res.status(500).json({ "mensaje": "El dato no se encontro para actualizar" });
             }
         });
     }
     deletePage(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const result = yield this.crudService.delete(parseInt(id));
+            const result = yield pageService_1.pageService.deletePage(parseInt(id));
             console.log(result);
             if (result.affectedRows === 1) {
                 res.status(201).json({ "mensaje": "El dato se elimino" });

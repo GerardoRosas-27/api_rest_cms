@@ -2,7 +2,8 @@ import express, { Application } from "express";
 import morgan from "morgan";
 import cors from "cors";
 import { pageR } from "./routes/pageRouter";
-
+import { cardsR } from "./routes/cardsRouter";
+import { usuarioR } from "./routes/usuariosRouter";
 
 class Server {
     public app: Application;
@@ -37,7 +38,8 @@ class Server {
     }
     routes() {
         this.app.use('/', pageR.router);
-        //this.app.use('/', contactosR.router);
+        this.app.use('/', cardsR.router);
+        this.app.use('/', usuarioR.router);
     }
     start() {
         this.app.listen(this.app.get('port'), () => {
