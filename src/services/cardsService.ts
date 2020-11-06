@@ -19,6 +19,9 @@ class CardsService {
             }
         }
     }
+    async getImagenCard(nombre: string ): Promise<Card[]> {
+       return await this.crudC.selectNombre("imagen", nombre);
+    }
 
     async postCard(data: Card) {
         console.log("datos para insertar: ", data);

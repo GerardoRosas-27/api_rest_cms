@@ -1,4 +1,5 @@
 import express, { Application } from "express";
+import fileUpload from "express-fileupload";
 import morgan from "morgan";
 import cors from "cors";
 import { pageR } from "./routes/pageRouter";
@@ -34,6 +35,8 @@ class Server {
 
             next();
         });
+        this.app.use(fileUpload());
+        this.app.use(express.static('./public'));
 
     }
     routes() {

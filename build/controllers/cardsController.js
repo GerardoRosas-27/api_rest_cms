@@ -40,14 +40,36 @@ class CardsController {
     }
     postCard(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const card = req.body;
-            const result = yield cardsService_1.cardsService.postCard(card);
-            console.log(result);
-            if (result.affectedRows === 1) {
-                res.status(201).json({ "mensaje": "Los datos se registro" });
-            }
-            else {
-                res.status(500).json({ "mensaje": "Error al registrar el contacto" });
+            const { files } = req;
+            if (files) {
+                console.log("si trae archivo");
+                console.log(files);
+                let archivo = files.archivo;
+                const existeImagen = yield cardsService_1.cardsService.getImagenCard(`/imagenes/${archivo.name}`);
+                if (existeImagen.length > 0) {
+                    res.status(500).json({ 'mensaje': 'el archivo: ' + archivo.name + ' ya existe' });
+                }
+                else {
+                    archivo.mv(`./public/imagenes/${archivo.name}`, (err) => __awaiter(this, void 0, void 0, function* () {
+                        if (err) {
+                            console.log(err);
+                            res.status(500).json({ 'mensaje': 'el archivo: ' + archivo.name + ' no se pudo subir' });
+                        }
+                        else {
+                            let card = req.body;
+                            card.imagen = `/imagenes/${archivo.name}`;
+                            console.log(card);
+                            const result = yield cardsService_1.cardsService.postCard(card);
+                            console.log(result);
+                            if (result.affectedRows === 1) {
+                                res.status(201).json({ "mensaje": "Los datos se registro" });
+                            }
+                            else {
+                                res.status(500).json({ "mensaje": "Error al registrar el contacto" });
+                            }
+                        }
+                    }));
+                }
             }
         });
     }

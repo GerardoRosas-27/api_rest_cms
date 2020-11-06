@@ -34,6 +34,11 @@ class CardsService {
             }
         });
     }
+    getImagenCard(nombre) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.crudC.selectNombre("imagen", nombre);
+        });
+    }
     postCard(data) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("datos para insertar: ", data);

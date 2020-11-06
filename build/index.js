@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const pageRouter_1 = require("./routes/pageRouter");
@@ -32,6 +33,8 @@ class Server {
             res.setHeader('Access-Control-Allow-Headers', '*');
             next();
         });
+        this.app.use(express_fileupload_1.default());
+        this.app.use(express_1.default.static('./public'));
     }
     routes() {
         this.app.use('/', pageRouter_1.pageR.router);
