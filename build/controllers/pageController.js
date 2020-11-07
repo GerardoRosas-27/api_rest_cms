@@ -17,7 +17,7 @@ class PageController {
             try {
                 const result = yield pageService_1.pageService.getPage(undefined);
                 console.log(result);
-                res.status(200).json(result);
+                res.status(200).json({ mensaje: "Se cargaron las pages", pages: result });
             }
             catch (error) {
                 console.log(error);
@@ -31,7 +31,7 @@ class PageController {
                 const { id } = req.params;
                 const result = yield pageService_1.pageService.getPage(parseInt(id), undefined);
                 console.log(result);
-                res.status(200).json(result);
+                res.status(200).json({ mensaje: "Se cargaron las pages", pages: result });
             }
             catch (error) {
                 res.status(500).json({ "mensaje": "Error al consultar page" });
@@ -47,7 +47,7 @@ class PageController {
                 res.status(201).json({ "mensaje": "Los datos se registro" });
             }
             else {
-                res.status(500).json({ "mensaje": "Error al registrar el contacto" });
+                res.status(500).json({ "mensaje": "Error al registrar el page" });
             }
         });
     }

@@ -17,7 +17,7 @@ class CardsController {
             try {
                 const result = yield cardsService_1.cardsService.getCard(undefined);
                 console.log(result);
-                res.status(200).json(result);
+                res.status(200).json({ mensaje: "Se cargaron los cards", cards: result });
             }
             catch (error) {
                 console.log(error);
@@ -31,7 +31,7 @@ class CardsController {
                 const { id } = req.params;
                 const result = yield cardsService_1.cardsService.getCard(parseInt(id), undefined);
                 console.log(result);
-                res.status(200).json(result);
+                res.status(200).json({ mensaje: "Se cargaron los cards", cards: result });
             }
             catch (error) {
                 res.status(500).json({ "mensaje": "Error al consultar page" });

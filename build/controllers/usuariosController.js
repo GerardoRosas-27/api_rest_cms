@@ -50,7 +50,7 @@ class UsuariosController {
                 verificada = bcrypt_1.default.compareSync(usuario.contra, result[0].contra);
                 if (verificada) {
                     const token = jsonwebtoken_1.default.sign({ id: result[0].id }, config_1.SECRECT);
-                    res.status(200).json({ mensaje: "Sesión iniciada", usuario: result[0].username, token, rol: result[0].rol });
+                    res.status(200).json({ mensaje: "Sesión iniciada", username: result[0].username, token, rol: result[0].rol });
                 }
                 else {
                     res.status(401).json({ mensaje: "Contraseña incorrecta" });
@@ -66,7 +66,7 @@ class UsuariosController {
             try {
                 const result = yield usuariosService_1.usuarioService.getUser(undefined);
                 console.log(result);
-                res.status(200).json(result);
+                res.status(200).json({ mensaje: "Se cargaron los usuarios", usuarios: result });
             }
             catch (error) {
                 console.log(error);
@@ -80,7 +80,7 @@ class UsuariosController {
                 const { id } = req.params;
                 const result = yield usuariosService_1.usuarioService.getUser(parseInt(id), undefined);
                 console.log(result);
-                res.status(200).json(result);
+                res.status(200).json({ mensaje: "Se cargaron los usuarios", usuarios: result });
             }
             catch (error) {
                 res.status(500).json({ "mensaje": "Error al consultar usuarios" });
