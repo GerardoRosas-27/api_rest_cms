@@ -33,7 +33,10 @@ class CardsController {
             console.log("si trae archivo");
             console.log(files);
             let archivo: fileUpload.UploadedFile = files.archivo;
-            const existeImagen = await cardsService.getImagenCard(`/imagenes/${archivo.name}`);
+
+            const imgBD = `http://localhost:3000/imagenes/${archivo.name}`;
+
+            const existeImagen = await cardsService.getImagenCard(imgBD);
             if(existeImagen.length > 0){
                 res.status(500).json({ 'mensaje': 'el archivo: ' + archivo.name + ' ya existe' });
             }else{
@@ -43,7 +46,7 @@ class CardsController {
                         res.status(500).json({ 'mensaje': 'el archivo: ' + archivo.name + ' no se pudo subir' });
                     } else {
                         let card: Card = req.body;
-                        card.imagen = `/imagenes/${archivo.name}`;
+                        card.imagen = imgBD;
                         console.log(card);
                         const result = await cardsService.postCard(card);
                         console.log(result);

@@ -45,7 +45,8 @@ class CardsController {
                 console.log("si trae archivo");
                 console.log(files);
                 let archivo = files.archivo;
-                const existeImagen = yield cardsService_1.cardsService.getImagenCard(`/imagenes/${archivo.name}`);
+                const imgBD = `http://localhost:3000/imagenes/${archivo.name}`;
+                const existeImagen = yield cardsService_1.cardsService.getImagenCard(imgBD);
                 if (existeImagen.length > 0) {
                     res.status(500).json({ 'mensaje': 'el archivo: ' + archivo.name + ' ya existe' });
                 }
@@ -57,7 +58,7 @@ class CardsController {
                         }
                         else {
                             let card = req.body;
-                            card.imagen = `/imagenes/${archivo.name}`;
+                            card.imagen = imgBD;
                             console.log(card);
                             const result = yield cardsService_1.cardsService.postCard(card);
                             console.log(result);
