@@ -40,6 +40,11 @@ class PageService {
             return yield this.crudC.insert(page);
         });
     }
+    getImagenCard(nombre) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.crudC.selectNombre("imagen", nombre);
+        });
+    }
     putPage(id, page) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("datos para actualizar: ", id, " data: ", page);

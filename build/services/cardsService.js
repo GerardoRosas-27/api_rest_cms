@@ -34,6 +34,11 @@ class CardsService {
             }
         });
     }
+    getCardsPage(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.crudC.selectNombre("page", id);
+        });
+    }
     getImagenCard(nombre) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.crudC.selectNombre("imagen", nombre);

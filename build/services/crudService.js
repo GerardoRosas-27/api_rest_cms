@@ -40,7 +40,6 @@ class CrudService {
                 }
             }
             else {
-                console.log("dadas las pages. nombre tabla: ", this.nombreTabla);
                 const result = yield database_1.default.query('SELECT * FROM ' + this.nombreTabla);
                 return result;
             }

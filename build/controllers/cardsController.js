@@ -12,16 +12,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.cardC = void 0;
 const cardsService_1 = require("../services/cardsService");
 class CardsController {
-    getCards(req, res) {
+    getCardsPage(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const result = yield cardsService_1.cardsService.getCard(undefined);
+                const { id } = req.params;
+                const result = yield cardsService_1.cardsService.getCardsPage(parseInt(id));
                 console.log(result);
                 res.status(200).json({ mensaje: "Se cargaron los cards", cards: result });
             }
             catch (error) {
                 console.log(error);
-                res.status(500).json({ "mensaje": "Error al consultar pages" });
+                res.status(500).json({ "mensaje": "Error al consultar cards" });
             }
         });
     }
@@ -34,7 +35,7 @@ class CardsController {
                 res.status(200).json({ mensaje: "Se cargaron los cards", cards: result });
             }
             catch (error) {
-                res.status(500).json({ "mensaje": "Error al consultar page" });
+                res.status(500).json({ "mensaje": "Error al consultar card" });
             }
         });
     }
@@ -76,25 +77,71 @@ class CardsController {
     }
     putCard(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(req.body);
-            const { id } = req.params;
-            console.log(req.body);
-            const card = req.body;
-            const result0 = yield cardsService_1.cardsService.getCard(parseInt(id));
-            console.log(result0);
-            if (result0[1]) {
-                const aditResult = Object.assign(result0[1], card);
-                const result = yield cardsService_1.cardsService.putCard(parseInt(id), aditResult);
-                console.log(result);
-                if (result.affectedRows === 1) {
-                    res.status(201).json({ "mensaje": "Los datos se actualizarón" });
+            console.log("entro putcard");
+            const { files } = req;
+            if (files) {
+                const { id } = req.params;
+                let archivo = files.archivo;
+                const imgBD = `http://localhost:3000/imagenes/${archivo.name}`;
+                const result0 = yield cardsService_1.cardsService.getCard(parseInt(id));
+                if (result0.length > 0) {
+                    if (result0[0].imagen === imgBD) {
+                        res.status(500).json({ 'mensaje': 'el archivo: ' + archivo.name + ' ya existe' });
+                    }
+                    else {
+                        console.log("entro imagen:", result0);
+                        archivo.mv(`./public/imagenes/${archivo.name}`, (err) => __awaiter(this, void 0, void 0, function* () {
+                            if (err) {
+                                console.log(err);
+                                res.status(500).json({ 'mensaje': 'el archivo: ' + archivo.name + ' no se pudo subir' });
+                            }
+                            else {
+                                let card = req.body;
+                                if (typeof (card.page) === "string") {
+                                    card.page = parseInt(card.page);
+                                }
+                                card.imagen = imgBD;
+                                console.log(card);
+                                const aditResult = Object.assign(result0[0], card);
+                                const result = yield cardsService_1.cardsService.putCard(parseInt(id), aditResult);
+                                console.log(result);
+                                if (result.affectedRows === 1) {
+                                    res.status(201).json({ "mensaje": "Los datos se actualizarón" });
+                                }
+                                else {
+                                    res.status(500).json({ "mensaje": "Error al actualizar los datos" });
+                                }
+                            }
+                        }));
+                    }
                 }
                 else {
-                    res.status(500).json({ "mensaje": "Error al actualizar los datos" });
+                    res.status(500).json({ "mensaje": "El dato no se encontro para actualizar" });
                 }
             }
             else {
-                res.status(500).json({ "mensaje": "El dato no se encontro para actualizar" });
+                let card = req.body;
+                if (typeof (card.page) === "string") {
+                    card.page = parseInt(card.page);
+                }
+                delete card.archivo;
+                const { id } = req.params;
+                const result0 = yield cardsService_1.cardsService.getCard(parseInt(id));
+                if (result0.length > 0) {
+                    console.log("entro si hay card");
+                    const editResult = Object.assign(result0[0], card);
+                    const result = yield cardsService_1.cardsService.putCard(parseInt(id), editResult);
+                    console.log(result);
+                    if (result.affectedRows === 1) {
+                        res.status(201).json({ "mensaje": "Los datos se actualizarón" });
+                    }
+                    else {
+                        res.status(500).json({ "mensaje": "Error al actualizar los datos" });
+                    }
+                }
+                else {
+                    res.status(500).json({ "mensaje": "El dato no se encontro para actualizar" });
+                }
             }
         });
     }

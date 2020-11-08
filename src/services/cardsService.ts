@@ -19,6 +19,9 @@ class CardsService {
             }
         }
     }
+    async getCardsPage(id: number ): Promise<Card[]> {
+        return await this.crudC.selectNombre("page", id);
+     }
     async getImagenCard(nombre: string ): Promise<Card[]> {
        return await this.crudC.selectNombre("imagen", nombre);
     }

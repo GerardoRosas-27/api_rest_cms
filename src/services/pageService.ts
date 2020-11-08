@@ -24,6 +24,9 @@ class PageService {
         console.log("datos para insertar: ", page);
        return await this.crudC.insert(page); 
     }
+    async getImagenCard(nombre: string ): Promise<Page[]> {
+        return await this.crudC.selectNombre("imagen", nombre);
+     }
     
     async putPage(id: number, page: Page) {
         console.log("datos para actualizar: ", id  ," data: ", page);

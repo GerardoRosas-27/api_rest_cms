@@ -29,9 +29,7 @@ export default class CrudService{
                 const result = await pool.query('SELECT * FROM ' + this.nombreTabla + ' WHERE ' + this.nombreId + ' = ' + id);
                 return result;
             }
-
         } else {
-            console.log("dadas las pages. nombre tabla: ", this.nombreTabla);
             const result = await pool.query('SELECT * FROM ' + this.nombreTabla);
             return result;
         }

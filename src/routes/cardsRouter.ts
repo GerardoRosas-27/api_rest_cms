@@ -9,11 +9,11 @@ class CardsRoutes {
     this.configRoutes();
   }
   configRoutes(): void {
-    this.router.get('/api/card', cardC.getCards);
+    this.router.get('/api/card/page/:id', cardC.getCardsPage);
     this.router.get('/api/card/:id', cardC.getCard);
     this.router.post('/api/card', jwtSecurity.verificarToken, cardC.postCard);
+    this.router.put('/api/card/:id', jwtSecurity.verificarToken, cardC.putCard);
     this.router.delete('/api/card/:id', jwtSecurity.verificarToken, cardC.deleteCard);
-    this.router.put('/api/cart/:id', jwtSecurity.verificarToken, cardC.putCard);
   }
 }
 
