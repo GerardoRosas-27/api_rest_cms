@@ -4,6 +4,7 @@ export interface Card {
     descripcion: string;
     boton: string;
     imagen?: string;
+    link: string;
     page?: number | string;
     archivo?: any;
 }

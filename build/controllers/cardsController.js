@@ -59,6 +59,9 @@ class CardsController {
                         }
                         else {
                             let card = req.body;
+                            if (typeof (card.page) === "string") {
+                                card.page = parseInt(card.page);
+                            }
                             card.imagen = imgBD;
                             console.log(card);
                             const result = yield cardsService_1.cardsService.postCard(card);

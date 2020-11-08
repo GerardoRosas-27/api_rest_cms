@@ -40,7 +40,7 @@ class PageService {
             return yield this.crudC.insert(page);
         });
     }
-    getImagenCard(nombre) {
+    getImagenPage(nombre) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.crudC.selectNombre("imagen", nombre);
         });

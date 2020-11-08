@@ -37,7 +37,7 @@ class PageController {
 
             const imgBD = `http://localhost:3000/imagenes/${archivo.name}`;
 
-            const existeImagen = await pageService.getImagenCard(imgBD);
+            const existeImagen = await pageService.getImagenPage(imgBD);
             if (existeImagen.length > 0) {
                 res.status(500).json({ 'mensaje': 'el archivo: ' + archivo.name + ' ya existe' });
             } else {

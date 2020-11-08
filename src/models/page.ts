@@ -5,6 +5,7 @@ export interface Page {
     descripcion: string;
     imagen?: string;
     boton: string;
+    link: string;
     footer: string;
     archivo?: any;
 }

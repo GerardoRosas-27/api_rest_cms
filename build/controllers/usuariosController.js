@@ -53,11 +53,11 @@ class UsuariosController {
                     res.status(200).json({ mensaje: "Sesión iniciada", username: result[0].username, token, rol: result[0].rol });
                 }
                 else {
-                    res.status(401).json({ mensaje: "Contraseña incorrecta" });
+                    res.status(500).json({ mensaje: "Contraseña incorrecta" });
                 }
             }
             else {
-                res.status(401).json({ mensaje: "El usuario no existe" });
+                res.status(500).json({ mensaje: "El usuario no existe" });
             }
         });
     }

@@ -47,6 +47,9 @@ class CardsController {
                         res.status(500).json({ 'mensaje': 'el archivo: ' + archivo.name + ' no se pudo subir' });
                     } else {
                         let card: Card = req.body;
+                        if(typeof (card.page) === "string"){
+                            card.page = parseInt(card.page);
+                         }
                         card.imagen = imgBD;
                         console.log(card);
                         const result = await cardsService.postCard(card);
